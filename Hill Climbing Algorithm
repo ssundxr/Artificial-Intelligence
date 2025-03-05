@@ -1,0 +1,23 @@
+def f(x):
+    return x+3
+def hill_climbing_discrete(start_x, step_size=1, max_iterations=100):
+    current_x = start_x
+    current_value = f(current_x)   
+    for _ in range(max_iterations):
+        left_neighbor = current_x - step_size
+        right_neighbor = current_x + step_size        
+        left_value = f(left_neighbor)
+        right_value = f(right_neighbor)        
+        if left_value < current_value and left_value <= right_value:
+            current_x = left_neighbor
+            current_value = left_value
+        elif right_value < current_value:
+            current_x = right_neighbor
+            current_value = right_value
+        else:
+           
+            break    
+    return current_x, current_value
+start_x = 0
+optimal_x, optimal_value = hill_climbing_discrete(start_x)
+print(f"Optimal x: {optimal_x}, f(x): {optimal_value}")
