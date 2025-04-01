@@ -1,0 +1,38 @@
+from typing import Dict, List, Optional
+
+VARIABLES = ["csc", "maths", "phy", "che", "tam", "eng", "bio"]
+DOMAIN = ["Monday", "Tuesday", "Wednesday"]
+
+def is_consistent(assignment: Dict[str, str], variable: str, value: str) -> bool:
+    """Check if the current assignment is consistent."""
+    return value not in assignment.values()
+
+def backtrack(assignment: Dict[str, str]) -> Optional[Dict[str, str]]:
+    """Perform backtracking search for CSP."""
+    if len(assignment) == len(VARIABLES):
+        return assignment
+    
+    unassigned_vars = [var for var in VARIABLES if var not in assignment]
+    if not unassigned_vars:
+        return None
+    
+    var = unassigned_vars[0]
+    for value in DOMAIN:
+        if is_consistent(assignment, var, value):
+            assignment[var] = value
+            result = backtrack(assignment)
+            if result:
+                return result
+            assignment.pop(var)
+    
+    return None
+
+def solve_csp():
+    """Solves the CSP problem and prints the result."""
+    result = backtrack({})
+    if result:
+        print("Solution:", result)
+    else:
+        print("No solution found.")
+
+solve_csp()
